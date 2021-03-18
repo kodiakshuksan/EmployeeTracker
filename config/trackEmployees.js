@@ -1,5 +1,282 @@
+// make sure trackEmployees.js is working
 console.log('hello')
-require('./connectSql.js');
+
+//importing npm package mysql to use with the database in mysql workbench
+const mysql = require('mysql');
+
+//will be needing inquire for the command line prompts
 const inquirer = require('inquirer');
-console.log(inquirer);
-//module.exports = trackEmployees;
+
+//I might need this
+const fs = require('fs');
+
+//imports table to display database better
+const table = require('table');
+
+
+//console.log(inquirer);
+//console.log(table);
+
+
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+
+    // Your port; if not 3306
+    port: 3306,
+
+    // Your username
+    user: 'root',
+
+    // Be sure to update with your own MySQL password!
+    password: 'Mydogs333!!!',
+    database: 'tracker_db',
+});
+
+connection.connect(function(err) {
+    if (err) throw err;
+    console.log('connected as id ' + connection.threadId);
+    start();
+  });
+
+// connection.connect((err) => {
+//     if (err) throw err;
+//     start();
+// });
+
+const start = () => {
+    inquirer
+        .prompt({
+            name: 'action',
+            type: 'list',
+            message: 'What would you like to do?',
+            choices: [
+                'Add Department',
+                'Add Part',
+                'Add Employee',
+                'View Departments',
+                'View Roles',
+                'View Employees',
+                'Update Employee Roles',
+                'Exit',
+            ],
+        })
+        .then((answers) => {
+            switch (answers.action) {
+                case 'Add Department':
+                    addDepartment();
+                    break;
+
+
+                        case 'Add Part':
+                            addPart();
+                            break;
+
+                        case 'Add Employee':
+                            addEmployee();
+                            break;
+
+                case 'View Departments':
+                    viewDepartment();
+                    break;
+
+                        case 'View Roles':
+                            viewRoles();
+                            break;
+
+                        case 'View Employees':
+                            viewEmployees();
+                            break;
+
+                //         case 'Update Employee Roles':
+                //             updateEmployeeRoles();
+                //             break;
+
+                case 'Exit':
+                    connection.end();
+                    break;
+
+                default:
+                    console.log(`Invalid action: ${answer.action}`);
+                    break;
+            }
+        });
+
+
+    const addDepartment = () =>
+        inquirer
+            .prompt([
+                {
+                    name: 'department_name',
+                    type: 'input',
+                    message: 'What Department do you want to add?',
+                }
+            ])
+
+            .then((answers) => {
+                connection.query(
+                    'INSERT INTO department SET ?',
+                    {
+                        department_name: answers.department_name,
+                    },
+                    
+                    console.log('department inserted!\n'));
+                //     // starts prompts over again for user to have another choice
+                //connection.connect(start);
+             
+            })
+}
+
+const addPart = () =>
+inquirer
+    .prompt([
+        {
+            name: 'part_title',
+            type: 'input',
+            message: 'What Part/Title/Role do you want to add?',
+        },
+        {
+            name: 'salary',
+            type: 'input',
+            message: 'What is the salary for this title?',
+        },
+        {
+            name: 'department_id',
+            type: 'input',
+            message: 'What is the department_id number?',
+        }
+    ])
+
+    .then((answers) => {
+        connection.query(
+            'INSERT INTO part SET ?',
+            {
+                title: answers.part_title,
+                salary: answers.salary,
+                department_id: answers.department_id,
+            },
+            
+            console.log('New part/title/role added!\n'));
+        //     // starts prompts over again for user to have another choice
+        connection.connect(start);
+     
+    })
+
+    const addEmployee = () =>
+inquirer
+    .prompt([
+        {
+            name: 'part_title',
+            type: 'input',
+            message: 'What is your first name?',
+        },
+        {
+            name: 'salary',
+            type: 'input',
+            message: 'What is your last name?',
+        },
+        {
+            name: 'department_id',
+            type: 'input',
+            message: 'What is the part_id number?',
+        },
+        {
+            name: 'manager_id',
+            type: 'input',
+            message: 'What is the manager_id number?',
+        }
+    ])
+
+    .then((answers) => {
+        connection.query(
+            'INSERT INTO employee SET ?',
+            {
+                first_name: answers.first_name,
+                last_name: answers.last_name,
+                department_id: answers.department_id,
+                manager_id: answers.manager_id,
+            },
+            
+            console.log('New employee added!\n'));
+        //     // starts prompts over again for user to have another choice
+        connection.connect(start);
+     
+    })
+
+
+
+
+
+
+
+
+
+
+
+    const viewDepartment = () => {
+        console.log('Selecting all department...\n');
+        connection.query('SELECT * FROM department', (err, res) => {
+          if (err) throw err;
+          // Log all results of the SELECT statement
+          console.log(res);
+          table.res;
+          connection.connect(start);
+          //connection.end();
+          
+        });
+        
+      };
+
+      const viewRoles = () => {
+        console.log('Selecting all parts...\n');
+        connection.query('SELECT * FROM part', (err, res) => {
+          if (err) throw err;
+          // Log all results of the SELECT statement
+          console.log(res);
+          table.res;
+          connection.connect(start);
+          //connection.end();
+          
+        });
+        
+      };
+      
+      const viewEmployees = () => {
+        console.log('Selecting all employees...\n');
+        connection.query('SELECT * FROM employee', (err, res) => {
+          if (err) throw err;
+          // Log all results of the SELECT statement
+          console.log(res);
+          table.res;
+          connection.connect(start);
+          //connection.end();
+          
+        });
+        
+      };
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+
+
+
+
+

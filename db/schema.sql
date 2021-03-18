@@ -39,10 +39,17 @@ CREATE TABLE employee (
   -- Makes a sting column called "last_name" --
   last_name VARCHAR(30) NOT NULL,
   -- Makes an numeric column called "role_id" --
-  role_id INT,
+  part_id INT,
    -- Makes an numeric column called "manager_id" --
   manager_id INT,
   PRIMARY KEY (id),
-  FOREIGN KEY (role_id) REFERENCES part(id),
+  FOREIGN KEY (part_id) REFERENCES part(id),
   FOREIGN KEY (manager_id) REFERENCES part(id)
 );
+
+
+
+INSERT INTO employee (first_name, last_name) values ('Jane', 'Austen');
+
+
+INSERT INTO department (department_name) values ('Math');
