@@ -1,3 +1,4 @@
+  
 // make sure trackEmployees.js is working
 console.log('hello')
 
@@ -88,9 +89,9 @@ const start = () => {
                     viewEmployees();
                     break;
 
-                //         case 'Update Employee Roles':
-                //             updateEmployeeRoles();
-                //             break;
+                case 'Update Employee Roles':
+                    viewEmployees();
+                    break;
 
                 case 'Exit':
                     connection.end();
@@ -110,11 +111,6 @@ const start = () => {
                     name: 'department_name',
                     type: 'input',
                     message: 'What Department do you want to add?',
-                },
-                {
-                    name: 'id',
-                    type: 'input',
-                    message: 'What Department ID do you want to add?',
                 }
             ])
 
@@ -131,9 +127,9 @@ const start = () => {
                 connection.connect(start);
 
             })
-}
 
-const addPart = () =>
+
+const addPart = () => 
     inquirer
         .prompt([
             {
@@ -152,6 +148,7 @@ const addPart = () =>
                 message: 'What is the department_id number?',
             }
         ])
+    
 
         .then((answers) => {
             connection.query(
@@ -166,10 +163,8 @@ const addPart = () =>
             //     // starts prompts over again for user to have another choice
             
             connection.connect(start);
-            connection.connect(start);
-
-
         })
+
 
 const addEmployee = () =>
     inquirer
@@ -208,7 +203,7 @@ const addEmployee = () =>
 
                 console.log('New employee added!\n'));
             //     // starts prompts over again for user to have another choice
-            start();
+            connection.connect(start);
         })
     
 
@@ -225,7 +220,7 @@ const viewDepartment = () => {
         //connection.end();
         connection.connect(start);
 
-    });
+    })
 
 };
 
@@ -239,7 +234,7 @@ const viewRoles = () => {
         connection.connect(start);
         
 
-    });
+    })
 
 };
 
@@ -253,114 +248,7 @@ const viewEmployees = () => {
         connection.connect(start);
         
 
-    });
+    })
 
 };
-
-
-    
-
-    //  const updateEmployeeRoles = () => {
-    //     console.log('Updating employee roles...\n');
-    //     const query = connection.query(
-    //       'UPDATE employee SET ? WHERE ?',
-    //       [
-    //         {
-    //           part_id: '' ,
-    //         },
-    //         {
-    //           manager_id: '',
-    //         },
-    //         {
-        //      manager_id: '',
-        //      },
-    //       ],
-    //       (err, res) => {
-    //         if (err) throw err;
-    //         console.log(`${res.affectedRows} Employee Roles updated!\n`);
-    //         // Call deleteProduct AFTER the UPDATE completes
-    //         //deleteProduct();
-    //         const viewEmployees = () => {
-    //         console.log('Selecting all employees...\n');
-    //         connection.query('SELECT * FROM employee', (err, res) => {
-    //         if (err) throw err;
-    //         // Log all results of the SELECT statement
-    //         console.log(res);
-    //         table.res;
-    //         connection.connect(start);
-    //         //connection.end();
-    
-    //     });
-    
-    // };
-    //delete ?
-    // const deleteProduct = () => {
-    //     console.log('Deleting...\n');
-    //     connection.query(
-    //       'DELETE FROM products WHERE ?',
-    //       {
-    //         flavor: 'strawberry',
-    //       },
-    //       (err, res) => {
-    //         if (err) throw err;
-    //         console.log(`${res.affectedRows} deleted!\n`);
-    //         // Call readProducts AFTER the DELETE completes
-    //         readProducts();
-    //       }
-    //     );
-    //   };
-
-//readEmployees and  view employees function
-// const readEmployees = () => {
-//     console.log('Selecting all employees...\n');
-//     connection.query('SELECT * FROM employee', (err, res) => {
-//       if (err) throw err;
-//       // Log all results of the SELECT statement
-//       console.log(res);
-//       connection.end();
-//     });
-//   };
-        
-
-
-
-
-    // -- show ALL books with authors
-    // -- INNER JOIN will only return all matching values from both tables
-    // SELECT title, firstName, lastName
-    // FROM books
-    // INNER JOIN authors ON books.authorId = authors.id;
-    
-    // -- show ALL books, even if we don't know the author
-    // -- LEFT JOIN returns all of the values from the left table, and the matching ones from the right table
-    // SELECT title, firstName, lastName
-    // FROM books
-    // LEFT JOIN authors ON books.authorId = authors.id;
-    
-    // -- show ALL books, even if we don't know the author
-    // -- RIGHT JOIN returns all of the values from the right table, and the matching ones from the left table
-    // SELECT title, firstName, lastName
-    // FROM books
-    // RIGHT JOIN authors ON books.authorId = authors.id;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
